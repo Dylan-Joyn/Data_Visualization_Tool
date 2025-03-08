@@ -35,5 +35,9 @@ public class Main {
         frame.setVisible(true);
 
 
+        frame.setSize(800, 800);
+
+
+
     }
 }
