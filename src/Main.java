@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        String contents = Files.readString(Path.of("nobel_prizes.csv"), StandardCharsets.UTF_8);
+        String contents = Files.readString(Path.of("Pixar_Films/public_response.csv"), StandardCharsets.UTF_8);
 
         List<String> lines = contents.lines().toList();
         String[] headers = lines.get(0).split(",");
