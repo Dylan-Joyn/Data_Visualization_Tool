@@ -10,11 +10,14 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
+        // Read the entire contents of the CSV file into a string
         String contents = Files.readString(Path.of("Pixar_Films/custom_pixar.csv"), StandardCharsets.UTF_8);
 
+        // Read the entire contents of the CSV file into a string
         List<String> lines = contents.lines().toList();
         String[] headers = lines.get(0).split(",");
 
+        // Create an ArrayList to store the data rows
         ArrayList<Object[]> data = new ArrayList<>();
 
         for (int i = 1; i < lines.size(); i++) {
@@ -40,7 +43,7 @@ public class Main {
 
     private static void runConsole(String[] headers, List<Object[]> data) {
 
-        // 1. Print attributes of first data item
+        //Print attributes of first data item
         System.out.println("Data item attributes");
         if (!data.isEmpty()) {
             Object[] firstItem = data.get(0);
@@ -51,7 +54,7 @@ public class Main {
             System.out.println("No data items found in file");
         }
 
-        // 2. Print attributes of tenth data item
+        //Print attributes of tenth data item
         System.out.println("\nTenth data item attributes");
         if (data.size() >= 10) {
             Object[] tenthItem = data.get(9);
@@ -62,7 +65,7 @@ public class Main {
             System.out.println("File does not contain at least 10 data items");
         }
 
-        // 3. Display total number of entries
+        //Display total number of entries
         System.out.println("\nTotal number of entries in the data: " + data.size());
     }
 }
