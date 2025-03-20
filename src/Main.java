@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -10,40 +8,37 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        // Read the entire contents of the CSV file into a string
-        String contents = Files.readString(Path.of("Pixar_Films/custom_pixar.csv"), StandardCharsets.UTF_8);
 
-        // Read the entire contents of the CSV file into a string
+        //read file
+        String contents = Files.readString(Path.of("Pixar_Films/custom_pixar_tab_delimited.tsv"), StandardCharsets.UTF_8);
+
+        //parse data
         List<String> lines = contents.lines().toList();
-        String[] headers = lines.get(0).split(",");
+        String headerLine = lines.get(0);
+        String[] headers = headerLine.split("\t");  // Split by tab instead of comma
 
-        // Create an ArrayList to store the data rows
+        //arraylist for rows of data
         ArrayList<Object[]> data = new ArrayList<>();
 
+        //parse data rows
         for (int i = 1; i < lines.size(); i++) {
-            data.add(lines.get(i).split(","));
-        }
+            String line = lines.get(i);
+            String[] parts = line.split("\t");
 
+            data.add(parts);
+        }
         // Run console test
         runConsole(headers, data);
 
-        Object[][] allData = data.toArray(new Object[0][]);
-
-        DefaultTableModel model = new DefaultTableModel(allData, headers);
-        JTable table = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(table);
-
-        JFrame frame = new JFrame("Pixar Films");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-        frame.setVisible(true);
-        frame.setSize(800, 800);
+        //Launch GUI
+        SwingUtilities.invokeLater(() -> {
+            PixarGUI gui = new PixarGUI(headers, data);
+            gui.setVisible(true);
+        });
     }
 
-
     private static void runConsole(String[] headers, List<Object[]> data) {
-
-        //Print attributes of first data item
+        //print attributes of first item
         System.out.println("Data item attributes");
         if (!data.isEmpty()) {
             Object[] firstItem = data.get(0);
@@ -54,7 +49,7 @@ public class Main {
             System.out.println("No data items found in file");
         }
 
-        //Print attributes of tenth data item
+        //print attributes of tenth item
         System.out.println("\nTenth data item attributes");
         if (data.size() >= 10) {
             Object[] tenthItem = data.get(9);
@@ -65,7 +60,7 @@ public class Main {
             System.out.println("File does not contain at least 10 data items");
         }
 
-        //Display total number of entries
+        //total entries
         System.out.println("\nTotal number of entries in the data: " + data.size());
     }
 }
